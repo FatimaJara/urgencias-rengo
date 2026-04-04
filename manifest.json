@@ -1,0 +1,16 @@
+{
+  "name": "Urgencias Rengo IA",
+  "short_name": "Rengo IA",
+  "description": "Asistente Clínico Psiquiátrico",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1e3a8a",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "image_b760c1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
