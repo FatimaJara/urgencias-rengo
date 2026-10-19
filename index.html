@@ -55,7 +55,7 @@ border: 1px solid rgba(0, 180, 216, 0.3);
 .text-plain { white-space: pre-wrap; font-family: 'Segoe UI', sans-serif; }
 .audio-btn-loading { opacity: 0.7; pointer-events: none; }
 
-/* Estilos para los selects del examen mental */
+/* Estilos para los selects de formularios */
 .form-select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -91,7 +91,6 @@ border: 1px solid rgba(0, 180, 216, 0.3);
 <header class="bg-blue-800 text-white py-12 px-4 text-center relative overflow-hidden">
 <div class="max-w-4xl mx-auto relative z-10">
 <div class="bg-white/95 backdrop-blur-sm inline-block p-4 md:p-5 rounded-3xl mb-8 shadow-xl border border-white/20">
-  <!-- Logo SVG Integrado -->
   <svg viewBox="0 0 420 120" class="h-16 md:h-20 w-auto" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="swooshGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -255,11 +254,11 @@ Generar Caso de Práctica ✨
 </div>
 </section>
 
-<!-- EXAMEN MENTAL Y RASS -->
+<!-- EXAMEN MENTAL, RASS Y CIWA -->
 <section id="examen" class="scroll-mt-24">
 <div class="text-center mb-10">
-<h2 class="text-3xl font-bold text-gray-900 mb-2 uppercase tracking-wide">Examen Mental Rápido en Urgencias</h2>
-<p class="text-gray-600 max-w-2xl mx-auto text-sm">Elementos críticos que nunca deben faltar en el registro de la ficha clínica del paciente descompensado.</p>
+<h2 class="text-3xl font-bold text-gray-900 mb-2 uppercase tracking-wide">Examen Mental y Escalas de Urgencias</h2>
+<p class="text-gray-600 max-w-2xl mx-auto text-sm">Herramientas críticas para el registro de la ficha clínica del paciente descompensado o en abstinencia.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
   <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 border-t-4 border-t-indigo-500 hover:shadow-md transition">
@@ -312,13 +311,15 @@ Generar Caso de Práctica ✨
   </div>
 </div>
 
-<div class="text-center flex flex-col md:flex-row justify-center items-center gap-4">
-  <button onclick="openMentalExamForm()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
-    <span class="text-lg">📝</span> Redactar Examen Mental Automático
+<div class="flex flex-wrap justify-center items-center gap-4">
+  <button onclick="openMentalExamForm()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
+    <span class="text-lg">📝</span> Examen Mental
   </button>
-  
-  <button onclick="openRassModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
-    <span class="text-lg">📊</span> Evaluar Escala RASS (Agitación/Sedación)
+  <button onclick="openRassModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
+    <span class="text-lg">📊</span> Escala RASS
+  </button>
+  <button onclick="openCiwaModal()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
+    <span class="text-lg">🍺</span> Escala CIWA-Ar
   </button>
 </div>
 </section>
@@ -600,7 +601,6 @@ Generar Caso de Práctica ✨
 
       <!-- Q3, 4, 5 (Ocultas por defecto) -->
       <div id="columbiaSubQ" class="hidden space-y-4 border-l-4 border-red-400 pl-4 ml-2">
-         <!-- Q3 -->
          <div class="bg-red-50 p-4 rounded-xl border border-red-100">
             <p class="font-bold text-red-900 text-sm mb-1">3. Ideación suicida activa con cualquier método</p>
             <p class="text-xs text-red-800 mb-3">¿Ha estado pensando en cómo lo haría (algún método específico)?</p>
@@ -609,7 +609,6 @@ Generar Caso de Práctica ✨
               <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="c3" value="no" class="w-4 h-4" checked> No</label>
             </div>
          </div>
-         <!-- Q4 -->
          <div class="bg-red-50 p-4 rounded-xl border border-red-100">
             <p class="font-bold text-red-900 text-sm mb-1">4. Ideación suicida activa con cierta intención</p>
             <p class="text-xs text-red-800 mb-3">¿Ha tenido cierta intención de llevar a cabo estos pensamientos?</p>
@@ -618,7 +617,6 @@ Generar Caso de Práctica ✨
               <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="radio" name="c4" value="no" class="w-4 h-4" checked> No</label>
             </div>
          </div>
-         <!-- Q5 -->
          <div class="bg-red-50 p-4 rounded-xl border border-red-100">
             <p class="font-bold text-red-900 text-sm mb-1">5. Ideación suicida activa con plan específico e intención</p>
             <p class="text-xs text-red-800 mb-3">¿Ha elaborado los detalles de cómo matarse y tiene intención de llevarlo a cabo?</p>
@@ -650,7 +648,7 @@ Generar Caso de Práctica ✨
   </div>
 </div>
 
-<!-- MODAL ESCALA RASS -->
+<!-- MODAL ESCALA RASS (AGREGADO) -->
 <div id="rassModal" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
   <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-gray-100 max-h-[90vh] flex flex-col">
     <button onclick="closeModal('rassModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-3xl font-light">×</button>
@@ -684,6 +682,155 @@ Generar Caso de Práctica ✨
     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
       <button onclick="closeModal('rassModal')" class="bg-gray-100 text-gray-700 px-6 py-2 rounded-xl font-bold text-sm hover:bg-gray-200 transition">Cerrar</button>
       <button onclick="generateRassReport()" class="bg-teal-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-md hover:bg-teal-700 transition">Generar Registro</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ESCALA CIWA-AR (NUEVO) -->
+<div id="ciwaModal" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
+  <div class="bg-white rounded-3xl max-w-4xl w-full p-6 md:p-8 shadow-2xl relative border border-gray-100 max-h-[90vh] flex flex-col">
+    <button onclick="closeModal('ciwaModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-3xl font-light">×</button>
+    <h3 class="text-2xl font-bold text-amber-900 mb-2 flex items-center gap-2"><span class="text-2xl">🍺</span> Escala CIWA-Ar (Abstinencia Alcohol)</h3>
+    <p class="text-sm text-gray-600 mb-4">Evalúe los 10 criterios de la escala. El puntaje definirá la indicación de medicación.</p>
+
+    <div class="overflow-y-auto pr-2 space-y-4 flex-grow scroll-smooth bg-gray-50 p-4 rounded-xl border border-gray-200">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Nausea / Vómitos (0-7)</label>
+          <select id="ciwa_nausea" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Ninguna</option>
+            <option value="1">1 - Nausea leve, sin vómitos</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 - Nausea intermitente</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 - Nausea constante y vómitos frecuentes</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Temblores (0-7)</label>
+          <select id="ciwa_tremor" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Sin temblor</option>
+            <option value="1">1 - No visible, palpable en puntas de dedos</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 - Moderado con brazos extendidos</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 - Severo, incluso sin brazos extendidos</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Ansiedad (0-7)</label>
+          <select id="ciwa_anxiety" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Sin ansiedad, tranquilo</option>
+            <option value="1">1 - Levemente ansioso</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 - Moderadamente ansioso o a la defensiva</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 - Pánico agudo (como en delirium severo)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Agitación (0-7)</label>
+          <select id="ciwa_agitation" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Actividad normal</option>
+            <option value="1">1 - Actividad algo normal</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 - Moderadamente inquieto</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 - Camina de un lado a otro constantemente</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Sudoración Paroxística (0-7)</label>
+          <select id="ciwa_sweat" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Sin sudor</option>
+            <option value="1">1 - Apenas perceptible, palmas húmedas</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4 - Gotas de sudor obvias en la frente</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7 - Sudores profusos (empapado)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Orientación y Sensorio (0-4)</label>
+          <select id="ciwa_orientation" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Orientado</option>
+            <option value="1">1 - Inseguro de fecha / no puede sumar en serie</option>
+            <option value="2">2 - Desorientado en fecha (por ≤ 2 días)</option>
+            <option value="3">3 - Desorientado en fecha (por > 2 días)</option>
+            <option value="4">4 - Desorientado en lugar y/o persona</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Alteraciones Táctiles (0-7)</label>
+          <select id="ciwa_tactile" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - Ninguna</option>
+            <option value="1">1 - Picor, hormigueo o ardor muy leve</option>
+            <option value="2">2 - Picor, hormigueo o ardor leve</option>
+            <option value="3">3 - Picor, hormigueo o ardor moderado</option>
+            <option value="4">4 - Alucinaciones moderadas</option>
+            <option value="5">5 - Alucinaciones severas</option>
+            <option value="6">6 - Alucinaciones extremadamente severas</option>
+            <option value="7">7 - Alucinaciones continuas</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Alteraciones Auditivas (0-7)</label>
+          <select id="ciwa_auditory" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - No presentes</option>
+            <option value="1">1 - Sobresalto / estridencia muy leve</option>
+            <option value="2">2 - Sobresalto / estridencia leve</option>
+            <option value="3">3 - Sobresalto / estridencia moderada</option>
+            <option value="4">4 - Alucinaciones moderadas</option>
+            <option value="5">5 - Alucinaciones severas</option>
+            <option value="6">6 - Alucinaciones extremadamente severas</option>
+            <option value="7">7 - Alucinaciones continuas</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Alteraciones Visuales (0-7)</label>
+          <select id="ciwa_visual" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - No presentes</option>
+            <option value="1">1 - Sensibilidad a la luz muy leve</option>
+            <option value="2">2 - Sensibilidad a la luz leve</option>
+            <option value="3">3 - Sensibilidad a la luz moderada</option>
+            <option value="4">4 - Alucinaciones moderadas</option>
+            <option value="5">5 - Alucinaciones severas</option>
+            <option value="6">6 - Alucinaciones extremadamente severas</option>
+            <option value="7">7 - Alucinaciones continuas</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-amber-800 mb-1">Cefalea / Pesantez de cabeza (0-7)</label>
+          <select id="ciwa_headache" class="form-select w-full p-2 border border-gray-300 rounded-lg text-sm bg-white outline-none">
+            <option value="0">0 - No presente</option>
+            <option value="1">1 - Muy leve</option>
+            <option value="2">2 - Leve</option>
+            <option value="3">3 - Moderada</option>
+            <option value="4">4 - Moderadamente severa</option>
+            <option value="5">5 - Severa</option>
+            <option value="6">6 - Muy severa</option>
+            <option value="7">7 - Extremadamente severa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultados CIWA -->
+    <div id="ciwaResult" class="hidden mt-4 p-4 rounded-xl text-sm leading-relaxed border border-transparent transition-all"></div>
+
+    <div class="mt-4 flex justify-end gap-3 pt-4 border-t border-gray-100">
+      <button onclick="closeModal('ciwaModal')" class="bg-gray-100 text-gray-700 px-6 py-2 rounded-xl font-bold text-sm hover:bg-gray-200 transition">Cerrar</button>
+      <button onclick="calculateCiwaScore()" class="bg-amber-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-md hover:bg-amber-700 transition">Calcular CIWA-Ar</button>
     </div>
   </div>
 </div>
@@ -812,9 +959,8 @@ new Chart(document.getElementById('losHorizontalBar'), {
   options: { indexAxis: 'y', ...commonOptions, scales: { x: { beginAtZero: true } } }
 });
 
-// Lógica Formulario Examen Mental (NUEVO)
+// Lógica Formulario Examen Mental
 function openMentalExamForm() {
-    // Resetear form y ocultar resultado
     document.getElementById('mentalExamResultContainer').classList.add('hidden');
     document.querySelectorAll('#mentalExamModal select').forEach(s => s.selectedIndex = 0);
     document.getElementById('mentalExamModal').classList.remove('hidden');
@@ -832,25 +978,20 @@ function generateMentalExamReport() {
     const sen = document.getElementById('me_senso').value;
     const ins = document.getElementById('me_insight').value;
 
-    const reportText = `EXAMEN MENTAL (SU):
-Paciente con apariencia ${ap}, establece un contacto visual ${con} y mantiene una actitud ${act}.
-A la evaluación, su psicomotricidad se observa ${psi}.
-Pensamiento de curso ${cur} y contenido ${cont}.
-Refiere un ánimo ${ani}, el cual se observa con un afecto ${afo}.
-Respecto a la sensopercepción, paciente ${sen}.
-Conciencia de enfermedad / Insight: ${ins}.`;
+    const reportText = `EXAMEN MENTAL (SU):\nPaciente con apariencia ${ap}, establece un contacto visual ${con} y mantiene una actitud ${act}.\nA la evaluación, su psicomotricidad se observa ${psi}.\nPensamiento de curso ${cur} y contenido ${cont}.\nRefiere un ánimo ${ani}, el cual se observa con un afecto ${afo}.\nRespecto a la sensopercepción, paciente ${sen}.\nConciencia de enfermedad / Insight: ${ins}.`;
 
     const resultBox = document.getElementById('mentalExamTextResult');
     resultBox.value = reportText;
     
-    // 1. Mostrar el contenedor ANTES de calcular la altura para que el navegador lea los píxeles reales
     document.getElementById('mentalExamResultContainer').classList.remove('hidden');
     
-    // 2. Auto ajustar altura del textarea
-    resultBox.style.height = 'auto';
-    resultBox.style.height = (resultBox.scrollHeight + 5) + 'px';
+    setTimeout(() => {
+        resultBox.style.height = 'auto';
+        resultBox.style.height = (resultBox.scrollHeight + 5) + 'px';
+        const modalScrollArea = document.querySelector('#mentalExamModal .overflow-y-auto');
+        if (modalScrollArea) modalScrollArea.scrollTo({ top: modalScrollArea.scrollHeight, behavior: 'smooth' });
+    }, 50);
     
-    // 3. Cambiar texto de boton si venia de copiado previo
     const btn = document.getElementById('btnCopyMe');
     btn.innerHTML = '📋 Copiar Texto';
     btn.classList.replace('bg-green-100', 'bg-indigo-100');
@@ -868,7 +1009,7 @@ function copyMentalExamText() {
     btn.classList.replace('text-indigo-800', 'text-green-800');
 }
 
-// Lógica Formulario Escala Columbia (TEST DIRECTO)
+// Lógica Formulario Escala Columbia
 function openColumbiaTest() {
   document.querySelectorAll('#columbiaForm input[type="radio"][value="no"]').forEach(r => r.checked = true);
   toggleColumbiaSubQ();
@@ -884,7 +1025,6 @@ function toggleColumbiaSubQ() {
     subQContainer.classList.remove('hidden');
   } else {
     subQContainer.classList.add('hidden');
-    // Reiniciar respuestas dependientes a 'No'
     document.querySelector('input[name="c3"][value="no"]').checked = true;
     document.querySelector('input[name="c4"][value="no"]').checked = true;
     document.querySelector('input[name="c5"][value="no"]').checked = true;
@@ -898,7 +1038,7 @@ function calculateColumbiaTest() {
   const c3 = val('c3');
   const c4 = val('c4');
   const c5 = val('c5');
-  const c6 = val('c6'); // Comportamiento
+  const c6 = val('c6'); 
 
   let score = 0;
   if (c1) score = 1;
@@ -940,7 +1080,7 @@ function calculateColumbiaTest() {
 // Lógica Formulario Escala RASS
 function openRassModal() {
     document.getElementById('rassResultContainer').classList.add('hidden');
-    document.getElementById('rassSelect').value = "0"; // Valor por defecto
+    document.getElementById('rassSelect').value = "0"; 
     document.getElementById('rassModal').classList.remove('hidden');
 }
 
@@ -948,15 +1088,11 @@ function generateRassReport() {
     const selectEl = document.getElementById('rassSelect');
     const score = selectEl.value;
     const rawText = selectEl.options[selectEl.selectedIndex].text;
-    
-    // Limpiamos el texto para que se vea clínico (quitamos el número del inicio)
     const cleanText = rawText.replace(/^[+-]?\d+\s*/, '');
-    
     const reportText = `Puntaje RASS: ${score} (${cleanText})`;
     
     const resultBox = document.getElementById('rassTextResult');
     resultBox.value = reportText;
-    
     document.getElementById('rassResultContainer').classList.remove('hidden');
     
     const btn = document.getElementById('btnCopyRass');
@@ -974,6 +1110,49 @@ function copyRassText() {
     btn.innerHTML = '✅ Copiado!';
     btn.classList.replace('bg-teal-100', 'bg-green-100');
     btn.classList.replace('text-teal-800', 'text-green-800');
+}
+
+// Lógica Formulario Escala CIWA-Ar
+function openCiwaModal() {
+    document.getElementById('ciwaResult').classList.add('hidden');
+    document.querySelectorAll('#ciwaModal select').forEach(s => s.value = "0");
+    document.getElementById('ciwaModal').classList.remove('hidden');
+}
+
+function calculateCiwaScore() {
+    let score = 0;
+    const fields = ['ciwa_nausea', 'ciwa_tremor', 'ciwa_anxiety', 'ciwa_agitation', 'ciwa_sweat', 'ciwa_orientation', 'ciwa_tactile', 'ciwa_auditory', 'ciwa_visual', 'ciwa_headache'];
+    
+    fields.forEach(f => {
+        score += parseInt(document.getElementById(f).value) || 0;
+    });
+
+    let riskLevel = "Abstinencia mínima o ausente";
+    let colorClass = "bg-green-50 text-green-900 border-green-300";
+    let action = "Continuar monitorización estándar. Riesgo bajo.";
+
+    if (score >= 10 && score <= 19) {
+        riskLevel = "Abstinencia Leve a Moderada";
+        colorClass = "bg-yellow-50 text-yellow-900 border-yellow-400";
+        action = "Requiere manejo farmacológico. Si el paciente ya está con medicamentos en horario, administrar dosis PRN/SOS adicional.";
+    }
+    
+    if (score >= 20) {
+        riskLevel = "Abstinencia Severa";
+        colorClass = "bg-red-50 text-red-900 border-red-400";
+        action = "Manejo agresivo. Riesgo inminente de Delirium Tremens o convulsiones.";
+    }
+
+    let prophylaxisAlert = (score >= 8 && score < 10) ? "<br><strong>Nota Clínica:</strong> Iniciar medicación profiláctica (Score ≥ 8)." : "";
+    let seniorAlert = score > 35 ? "<br><br><span class='text-red-700 font-black'>⚠️ ALERTA CRÍTICA: Score superior a 35 puntos. REQUIERE REVISIÓN INMEDIATA POR MÉDICO SENIOR.</span>" : "";
+
+    const resDiv = document.getElementById('ciwaResult');
+    resDiv.className = `mt-4 p-4 rounded-xl text-sm leading-relaxed border-2 ${colorClass}`;
+    resDiv.innerHTML = `<span class='font-black text-lg'>Puntaje Total CIWA-Ar: ${score}</span><br><strong>Clasificación: <span class='uppercase'>${riskLevel}</span></strong><br><br><strong class='text-xs uppercase tracking-wider opacity-80'>Recomendación Clínica:</strong><br>${action} ${prophylaxisAlert} ${seniorAlert}`;
+    resDiv.classList.remove('hidden');
+    
+    const modalScrollArea = document.querySelector('#ciwaModal .overflow-y-auto');
+    if (modalScrollArea) modalScrollArea.scrollTo({ top: modalScrollArea.scrollHeight, behavior: 'smooth' });
 }
 
 
