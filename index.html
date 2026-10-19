@@ -255,7 +255,7 @@ Generar Caso de Práctica ✨
 </div>
 </section>
 
-<!-- EXAMEN MENTAL -->
+<!-- EXAMEN MENTAL Y RASS -->
 <section id="examen" class="scroll-mt-24">
 <div class="text-center mb-10">
 <h2 class="text-3xl font-bold text-gray-900 mb-2 uppercase tracking-wide">Examen Mental Rápido en Urgencias</h2>
@@ -312,9 +312,13 @@ Generar Caso de Práctica ✨
   </div>
 </div>
 
-<div class="text-center">
-  <button onclick="openMentalExamForm()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm mx-auto hover:-translate-y-1">
+<div class="text-center flex flex-col md:flex-row justify-center items-center gap-4">
+  <button onclick="openMentalExamForm()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
     <span class="text-lg">📝</span> Redactar Examen Mental Automático
+  </button>
+  
+  <button onclick="openRassModal()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition flex justify-center items-center gap-2 text-sm hover:-translate-y-1">
+    <span class="text-lg">📊</span> Evaluar Escala RASS (Agitación/Sedación)
   </button>
 </div>
 </section>
@@ -433,7 +437,7 @@ Generar Caso de Práctica ✨
 <p class="text-xs tracking-wide">Plataforma de Apoyo Clínico Integrado</p>
 </footer>
 
-<!-- MODAL FORMULARIO EXAMEN MENTAL (NUEVO) -->
+<!-- MODAL FORMULARIO EXAMEN MENTAL -->
 <div id="mentalExamModal" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
   <div class="bg-white rounded-3xl max-w-3xl w-full p-6 md:p-8 shadow-2xl relative border border-gray-100 max-h-[90vh] flex flex-col">
     <button onclick="closeModal('mentalExamModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-3xl font-light">×</button>
@@ -642,6 +646,44 @@ Generar Caso de Práctica ✨
     <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
       <button onclick="closeModal('columbiaTestModal')" class="bg-gray-100 text-gray-700 px-6 py-2 rounded-xl font-bold text-sm hover:bg-gray-200 transition">Cerrar</button>
       <button onclick="calculateColumbiaTest()" class="bg-red-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-md hover:bg-red-700 transition">Calcular Score</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ESCALA RASS -->
+<div id="rassModal" class="fixed inset-0 bg-black/80 hidden z-[110] flex items-center justify-center p-4 backdrop-blur-md">
+  <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 shadow-2xl relative border border-gray-100 max-h-[90vh] flex flex-col">
+    <button onclick="closeModal('rassModal')" class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-3xl font-light">×</button>
+    <h3 class="text-2xl font-bold text-teal-900 mb-2 flex items-center gap-2"><span class="text-2xl">📊</span> Escala de Agitación-Sedación (RASS)</h3>
+    <p class="text-sm text-gray-600 mb-6">Seleccione el nivel clínico actual del paciente para la ficha.</p>
+
+    <div class="overflow-y-auto pr-2 flex-grow scroll-smooth">
+      <select id="rassSelect" size="11" class="w-full p-2 border border-teal-200 rounded-xl text-sm bg-teal-50 focus:ring-2 focus:ring-teal-500 outline-none overflow-hidden">
+        <option value="+4" class="py-2.5 px-3 border-b border-white text-red-700 font-bold">+4 Combativo (Violento, peligro para el equipo)</option>
+        <option value="+3" class="py-2.5 px-3 border-b border-white text-red-600 font-semibold">+3 Muy agitado (Agresivo, tira de catéteres)</option>
+        <option value="+2" class="py-2.5 px-3 border-b border-white text-orange-600 font-semibold">+2 Agitado (Movimientos desorganizados frecuentes)</option>
+        <option value="+1" class="py-2.5 px-3 border-b border-white text-yellow-600 font-semibold">+1 Inquieto (Ansioso, pero sin movimientos agresivos)</option>
+        <option value="0" class="py-2.5 px-3 border-b border-teal-200 text-green-700 font-black bg-green-100" selected> 0 Alerta y tranquilo (Estado basal ideal)</option>
+        <option value="-1" class="py-2.5 px-3 border-b border-white text-blue-600 font-semibold">-1 Somnoliento (Despierta a la voz, ojos abiertos >10 seg)</option>
+        <option value="-2" class="py-2.5 px-3 border-b border-white text-blue-700 font-semibold">-2 Sedación leve (Despierta a la voz, contacto visual <10 seg)</option>
+        <option value="-3" class="py-2.5 px-3 border-b border-white text-indigo-600 font-semibold">-3 Sedación moderada (Movimiento a la voz, sin contacto visual)</option>
+        <option value="-4" class="py-2.5 px-3 border-b border-white text-purple-700 font-semibold">-4 Sedación profunda (Responde solo a estimulación física)</option>
+        <option value="-5" class="py-2.5 px-3 text-gray-700 font-bold">-5 Sin respuesta (Cero respuesta a estímulo físico o verbal)</option>
+      </select>
+    </div>
+
+    <div id="rassResultContainer" class="hidden mt-6">
+      <textarea id="rassTextResult" class="w-full p-4 border border-teal-200 rounded-xl bg-teal-50 text-gray-800 text-sm font-medium leading-relaxed resize-none focus:outline-none min-h-[60px]" rows="2" readonly></textarea>
+      <div class="flex justify-end mt-2">
+          <button onclick="copyRassText()" id="btnCopyRass" class="bg-teal-100 text-teal-800 px-4 py-1.5 rounded-lg font-bold text-xs hover:bg-teal-200 transition flex items-center gap-1">
+              📋 Copiar Resultado
+          </button>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
+      <button onclick="closeModal('rassModal')" class="bg-gray-100 text-gray-700 px-6 py-2 rounded-xl font-bold text-sm hover:bg-gray-200 transition">Cerrar</button>
+      <button onclick="generateRassReport()" class="bg-teal-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-md hover:bg-teal-700 transition">Generar Registro</button>
     </div>
   </div>
 </div>
@@ -893,6 +935,45 @@ function calculateColumbiaTest() {
   resDiv.className = `mt-6 p-4 rounded-xl text-sm leading-relaxed border-2 ${colorClass}`;
   resDiv.innerHTML = `<span class='font-black text-lg'>Score de Ideación: ${score}/5</span><br><strong>Nivel de Riesgo Clínico: <span class='uppercase'>${riskLevel}</span></strong> ${behaviorAlert}<br><br><strong class='text-xs uppercase tracking-wider opacity-80'>Recomendación de Manejo:</strong><br>${action}`;
   resDiv.classList.remove('hidden');
+}
+
+// Lógica Formulario Escala RASS
+function openRassModal() {
+    document.getElementById('rassResultContainer').classList.add('hidden');
+    document.getElementById('rassSelect').value = "0"; // Valor por defecto
+    document.getElementById('rassModal').classList.remove('hidden');
+}
+
+function generateRassReport() {
+    const selectEl = document.getElementById('rassSelect');
+    const score = selectEl.value;
+    const rawText = selectEl.options[selectEl.selectedIndex].text;
+    
+    // Limpiamos el texto para que se vea clínico (quitamos el número del inicio)
+    const cleanText = rawText.replace(/^[+-]?\d+\s*/, '');
+    
+    const reportText = `Puntaje RASS: ${score} (${cleanText})`;
+    
+    const resultBox = document.getElementById('rassTextResult');
+    resultBox.value = reportText;
+    
+    document.getElementById('rassResultContainer').classList.remove('hidden');
+    
+    const btn = document.getElementById('btnCopyRass');
+    btn.innerHTML = '📋 Copiar Resultado';
+    btn.classList.replace('bg-green-100', 'bg-teal-100');
+    btn.classList.replace('text-green-800', 'text-teal-800');
+}
+
+function copyRassText() {
+    const textEl = document.getElementById('rassTextResult');
+    textEl.select();
+    document.execCommand('copy');
+    
+    const btn = document.getElementById('btnCopyRass');
+    btn.innerHTML = '✅ Copiado!';
+    btn.classList.replace('bg-teal-100', 'bg-green-100');
+    btn.classList.replace('text-teal-800', 'text-green-800');
 }
 
 
