@@ -1155,7 +1155,6 @@ function calculateCiwaScore() {
     if (modalScrollArea) modalScrollArea.scrollTo({ top: modalScrollArea.scrollHeight, behavior: 'smooth' });
 }
 
-
 async function callGemini(userPrompt, systemContext, isAudio = false, isFallback = false) {
   if (!apiKey || apiKey.trim() === "") {
     openApiKeyModal();
@@ -1168,7 +1167,8 @@ async function callGemini(userPrompt, systemContext, isAudio = false, isFallback
   const payload = { contents: [{ parts: [{ text: userPrompt }] }] };
   
   if (!isAudio && systemContext) {
-    payload.systemInstruction = { parts: [{ text: systemContext + " IMPORTANTE: Responde en texto plano (sin usar asteriscos ni almohadillas). Utiliza siempre una correcta ortografía, respetando todos los acentos y tildes del idioma español." }] };
+    // INSTRUCCIÓN ENDURECIDA: Bloqueo de inglés y ocultamiento de procesos de pensamiento
+    payload.systemInstruction = { parts: [{ text: systemContext + " DIRECTRIZ CRÍTICA: Eres un asistente médico en Chile. DEBES responder ÚNICA y ESTRICTAMENTE en idioma ESPAÑOL. NUNCA respondas en inglés. NO incluyas procesos de pensamiento interno, 'Mental Sandbox', 'Initial thought' ni explicaciones de cómo estructuraste la respuesta. Entrega directamente la respuesta clínica final. Usa texto plano (sin asteriscos ni almohadillas)." }] };
   }
   if (isAudio) payload.generationConfig = { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } };
 
@@ -1186,7 +1186,13 @@ async function callGemini(userPrompt, systemContext, isAudio = false, isFallback
         throw new Error(errorData.error?.message || `Error de conexión: ${response.status}`);
       }
       const data = await response.json();
-      const part = data.candidates[0].content.parts.find(p => isAudio ? p.inlineData : p.text);
+      let part = data.candidates[0].content.parts.find(p => isAudio ? p.inlineData : p.text);
+      
+      if (!isAudio && part && part.text) {
+          // Filtro de seguridad por si la IA intenta imprimir etiquetas de pensamiento
+          part.text = part.text.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+      }
+      
       return isAudio ? part : cleanMarkdown(part.text);
     } catch (e) { 
       if (i === 4 || e.message.includes("Requiere configuración") || (e.message.includes("is not found") && isFallback)) throw e; 
