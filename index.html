@@ -72,17 +72,69 @@ border: 1px solid rgba(0, 180, 216, 0.3);
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="flex justify-between h-16 items-center">
 <div class="flex-shrink-0 font-bold text-xl tracking-tight uppercase">UrgenciaPSI</div>
-<div class="hidden md:flex space-x-6 text-sm font-medium items-center">
-<a href="#asistente" class="nav-link">IA Clínica ✨</a>
-<a href="#contexto" class="nav-link">Contexto</a>
-<a href="#evidencia" class="nav-link">Evidencia</a>
-<a href="#examen" class="nav-link">Examen Mental</a>
-<a href="#riesgos" class="nav-link">Riesgos</a>
-<a href="#manejo" class="nav-link">Manejo</a>
-<a href="#eficiencia" class="nav-link">Eficiencia</a>
-<button onclick="openApiKeyModal()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-lg border border-blue-600 transition flex items-center gap-2 ml-4 shadow-inner" title="Configurar clave de Inteligencia Artificial">
-  ⚙️ API Key
-</button>
+
+<div class="flex items-center space-x-3 md:space-x-6 text-sm font-medium">
+  <!-- Barra Desplegable de Herramientas y Escalas Clínicas -->
+  <div class="relative" id="clinicalDropdownContainer">
+    <button onclick="toggleClinicalDropdown(event)" id="clinicalDropdownBtn" class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3.5 py-2 rounded-xl shadow transition flex items-center gap-2 text-xs sm:text-sm">
+      <span>🩺 Herramientas Clínicas</span>
+      <svg id="clinicalDropdownArrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+    <div id="clinicalDropdownMenu" class="hidden absolute right-0 md:left-0 mt-2 w-72 bg-white text-gray-800 rounded-2xl shadow-2xl border border-gray-100 py-2 z-[60] overflow-hidden">
+      <div class="px-4 py-1.5 text-[10px] font-black uppercase tracking-wider text-gray-400 border-b border-gray-100">Evaluación y Soporte</div>
+      <a href="#asistente" onclick="closeClinicalDropdown()" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition border-b border-gray-50">
+        <span class="text-lg">✨</span>
+        <div>
+          <div class="font-bold text-blue-900 text-sm">Asistente Razonamiento Clínico</div>
+          <div class="text-[11px] text-gray-500">Medical Clearance e IA clínica</div>
+        </div>
+      </a>
+      <button onclick="closeClinicalDropdown(); openMentalExamForm();" class="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-indigo-50 transition border-b border-gray-50">
+        <span class="text-lg">🧠</span>
+        <div>
+          <div class="font-bold text-indigo-900 text-sm">Examen Mental</div>
+          <div class="text-[11px] text-gray-500">Redactor estructurado para ficha</div>
+        </div>
+      </button>
+      <button onclick="closeClinicalDropdown(); openRassModal();" class="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-teal-50 transition border-b border-gray-50">
+        <span class="text-lg">📊</span>
+        <div>
+          <div class="font-bold text-teal-900 text-sm">Escala RASS</div>
+          <div class="text-[11px] text-gray-500">Nivel de agitación y sedación</div>
+        </div>
+      </button>
+      <button onclick="closeClinicalDropdown(); openCiwaModal();" class="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-amber-50 transition border-b border-gray-50">
+        <span class="text-lg">🍺</span>
+        <div>
+          <div class="font-bold text-amber-900 text-sm">Escala CIWA-Ar</div>
+          <div class="text-[11px] text-gray-500">Síndrome de abstinencia alcohólica</div>
+        </div>
+      </button>
+      <button onclick="closeClinicalDropdown(); openColumbiaTest();" class="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition">
+        <span class="text-lg">📋</span>
+        <div>
+          <div class="font-bold text-red-900 text-sm">Escala de Columbia</div>
+          <div class="text-[11px] text-gray-500">Estratificación riesgo suicida (C-SSRS)</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Enlaces de navegación de secciones -->
+  <div class="hidden lg:flex space-x-5 items-center">
+    <a href="#contexto" class="nav-link">Contexto</a>
+    <a href="#evidencia" class="nav-link">Evidencia</a>
+    <a href="#examen" class="nav-link">Examen Mental</a>
+    <a href="#riesgos" class="nav-link">Riesgos</a>
+    <a href="#manejo" class="nav-link">Manejo</a>
+    <a href="#eficiencia" class="nav-link">Eficiencia</a>
+  </div>
+
+  <button onclick="openApiKeyModal()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-lg border border-blue-600 transition flex items-center gap-1.5 shadow-inner text-xs sm:text-sm" title="Configurar clave de Inteligencia Artificial">
+    ⚙️ <span class="hidden sm:inline">API Key</span>
+  </button>
 </div>
 </div>
 </div>
@@ -882,6 +934,36 @@ Para activar las funciones de Inteligencia Artificial (✨), ingresa tu clave de
 </div>
 
 <script>
+
+// Lógica Barra Desplegable de Herramientas Clínicas
+function toggleClinicalDropdown(event) {
+  event.stopPropagation();
+  const menu = document.getElementById('clinicalDropdownMenu');
+  const arrow = document.getElementById('clinicalDropdownArrow');
+  const isHidden = menu.classList.contains('hidden');
+  if (isHidden) {
+    menu.classList.remove('hidden');
+    arrow.classList.add('rotate-180');
+  } else {
+    menu.classList.add('hidden');
+    arrow.classList.remove('rotate-180');
+  }
+}
+
+function closeClinicalDropdown() {
+  const menu = document.getElementById('clinicalDropdownMenu');
+  const arrow = document.getElementById('clinicalDropdownArrow');
+  if (menu) menu.classList.add('hidden');
+  if (arrow) arrow.classList.remove('rotate-180');
+}
+
+document.addEventListener('click', function(event) {
+  const container = document.getElementById('clinicalDropdownContainer');
+  if (container && !container.contains(event.target)) {
+    closeClinicalDropdown();
+  }
+});
+
 // Sistema Dinámico de API Key (guardado local)
 let apiKey = localStorage.getItem('gemini_api_key') || "";
 
