@@ -262,11 +262,11 @@ Generar Caso de Práctica ✨
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
   <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 border-t-4 border-t-indigo-500 hover:shadow-md transition">
-    <h4 class="font-bold text-indigo-900 mb-3 flex items-center gap-2"><span class="text-xl">👤</span> Apariencia y Actitud</h4>
+    <h4 class="font-bold text-indigo-900 mb-3 flex items-center gap-2"><span class="text-xl">👤</span> Conciencia, Apariencia y Actitud</h4>
     <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
+      <li>Nivel de conciencia (vigil, obnubilado, somnoliento, estupor).</li>
       <li>Nivel de autocuidado e higiene.</li>
-      <li>Contacto visual (evitativo, penetrante).</li>
-      <li>Actitud (colaborador, suspicaz, hostil, seductor).</li>
+      <li>Contacto visual y actitud (colaborador, suspicaz, hostil).</li>
     </ul>
   </div>
   <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 border-t-4 border-t-blue-500 hover:shadow-md transition">
@@ -447,6 +447,18 @@ Generar Caso de Práctica ✨
 
     <div class="overflow-y-auto pr-2 space-y-4 flex-grow scroll-smooth">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Nivel de Conciencia -->
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-indigo-900 mb-1 uppercase tracking-wider">Nivel de Conciencia (Estado Vigilia)</label>
+          <select id="me_conciencia" class="form-select w-full p-2.5 border border-indigo-200 rounded-lg text-sm bg-indigo-50/50 focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-gray-800">
+            <option value="vigil, lúcido y orientado temporoespacialmente">Vigil y lúcido (Normal)</option>
+            <option value="vigil, pero parcialmente desorientado">Vigil, parcialmente desorientado</option>
+            <option value="somnoliento (despierta fácilmente al llamado verbal)">Somnoliento</option>
+            <option value="obnubilado (bradipsíquico, tendencia al sueño, atención fluctuante)">Obnubilado (⚠️ Descartar organicidad/Delirium)</option>
+            <option value="hipervigilante / hiperalerta">Hipervigilante / Hiperalerta</option>
+            <option value="estuporoso (responde solo a estímulos dolorosos vigorosos)">Estuporoso (⚠️ Emergencia médica)</option>
+          </select>
+        </div>
         <!-- Apariencia -->
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wider">Apariencia e Higiene</label>
@@ -967,6 +979,7 @@ function openMentalExamForm() {
 }
 
 function generateMentalExamReport() {
+    const conc = document.getElementById('me_conciencia').value;
     const ap = document.getElementById('me_apariencia').value;
     const con = document.getElementById('me_contacto').value;
     const act = document.getElementById('me_actitud').value;
@@ -978,7 +991,7 @@ function generateMentalExamReport() {
     const sen = document.getElementById('me_senso').value;
     const ins = document.getElementById('me_insight').value;
 
-    const reportText = `EXAMEN MENTAL (SU):\nPaciente con apariencia ${ap}, establece un contacto visual ${con} y mantiene una actitud ${act}.\nA la evaluación, su psicomotricidad se observa ${psi}.\nPensamiento de curso ${cur} y contenido ${cont}.\nRefiere un ánimo ${ani}, el cual se observa con un afecto ${afo}.\nRespecto a la sensopercepción, paciente ${sen}.\nConciencia de enfermedad / Insight: ${ins}.`;
+    const reportText = `EXAMEN MENTAL (SU):\nPaciente ${conc}.\nCon apariencia ${ap}, establece un contacto visual ${con} y mantiene una actitud ${act}.\nA la evaluación, su psicomotricidad se observa ${psi}.\nPensamiento de curso ${cur} y contenido ${cont}.\nRefiere un ánimo ${ani}, el cual se observa con un afecto ${afo}.\nRespecto a la sensopercepción, paciente ${sen}.\nConciencia de enfermedad / Insight: ${ins}.`;
 
     const resultBox = document.getElementById('mentalExamTextResult');
     resultBox.value = reportText;
